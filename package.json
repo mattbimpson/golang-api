@@ -1,0 +1,19 @@
+{
+  "name": "moviesapi",
+  "version": "1.0.0",
+  "description": "a golang api",
+  "main": "app.go",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://bitbucket.org/mbimpson/golang-api.git"
+  },
+  "keywords": [
+    "golang"
+  ],
+  "author": "matt bimpson",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/mbimpson/golang-api#readme"
+}
