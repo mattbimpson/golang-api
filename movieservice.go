@@ -41,12 +41,7 @@ func (m *MoviesDAO) FindAll() ([]Movie, error) {
 }
 
 // Insert inserts a single movie into the db
-func (m *MoviesDAO) Insert() {
-	var movie Movie
-	movie.Description = "test"
-	movie.ID = "99"
-	movie.Name = "a test movie"
-	//verr := db.C(COLLECTION).Insert(&movie)
-	//vreturn err
-	db.C(COLLECTION).Insert(&movie)
+func (m *MoviesDAO) Insert(movie Movie) error {
+	err := db.C(COLLECTION).Insert(&movie)
+	return err
 }
