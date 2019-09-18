@@ -32,6 +32,9 @@ func respondWithJSON(w http.ResponseWriter, code int, payload interface{}) {
 }
 
 func GetMovies(w http.ResponseWriter, r *http.Request) {
-	var movies []Movie
+	movies := [2]Movie {
+		Movie{ ID: "0", Name: "First movie", Description: "The first one" },
+		Movie{ ID: "1", Name: "Second movie", Description: "The second one"},
+	}
 	respondWithJSON(w, http.StatusOK, movies)
 }
