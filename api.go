@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"gopkg.in/mgo.v2/bson"
 
 	"github.com/gorilla/mux"
 )
@@ -12,7 +13,7 @@ import (
 func main() {
 	r := mux.NewRouter()
 	r.HandleFunc("/movies", GetMovies).Methods("GET")
-	// r.HandleFunc("/movies", InsertMovie).Methods("POST")
+	r.HandleFunc("/movies", InsertMovie).Methods("POST")
 	r.Use(loggerMiddleware)
 	fmt.Printf("api running at port 3000")
 	if err := http.ListenAndServe(":3000", r); err != nil {
@@ -37,4 +38,17 @@ func GetMovies(w http.ResponseWriter, r *http.Request) {
 		Movie{ ID: "1", Name: "Second movie", Description: "The second one"},
 	}
 	respondWithJSON(w, http.StatusOK, movies)
+}
+
+func InsertMovie(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+	var movie Movie
+	if err := json.NewDecoder(r.Body).Decode(&movie); err != nil {
+		respondWithError(w, http.StatusBadRequest, "Invalid request payload")
+		return
+	}
+
+	// just return the movie with the new id for now
+	movie.ID = bson.NewObjectId()
+	respondWithJSON(w, http.StatusCreated, movie)
 }
