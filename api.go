@@ -5,10 +5,13 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+
 	"gopkg.in/mgo.v2/bson"
 
 	"github.com/gorilla/mux"
 )
+
+var movieList []Movie
 
 func main() {
 	r := mux.NewRouter()
@@ -33,11 +36,11 @@ func respondWithJSON(w http.ResponseWriter, code int, payload interface{}) {
 }
 
 func GetMovies(w http.ResponseWriter, r *http.Request) {
-	movies := [2]Movie {
-		Movie{ ID: "0", Name: "First movie", Description: "The first one" },
-		Movie{ ID: "1", Name: "Second movie", Description: "The second one"},
-	}
-	respondWithJSON(w, http.StatusOK, movies)
+	// movies := [2]Movie {
+	// 	Movie{ ID: "0", Name: "First movie", Description: "The first one" },
+	// 	Movie{ ID: "1", Name: "Second movie", Description: "The second one"},
+	// }
+	respondWithJSON(w, http.StatusOK, movieList)
 }
 
 func InsertMovie(w http.ResponseWriter, r *http.Request) {
@@ -48,6 +51,7 @@ func InsertMovie(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	movieList = append(movieList, movie)
 	// just return the movie with the new id for now
 	movie.ID = bson.NewObjectId()
 	respondWithJSON(w, http.StatusCreated, movie)
